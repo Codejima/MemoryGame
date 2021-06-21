@@ -5,72 +5,104 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryUI"
         mc:Ignorable="d"
-        Title="kimochi" Height="1000" Width="800">
+        Title="kimochi" Height="1000" Width="800" >
     <Window.Resources>
         <Style TargetType="Button" x:Key="FieldButtonStyle">
-            <Setter Property="Margin" Value="10"/>
-            <Setter Property="Background" Value="Black"/>
-            <EventSetter Event="Click" Handler="btnField_Click" />
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Background" Value="#FF41257A"/>
+            <Setter Property="BorderBrush" Value="White"/>
+            <EventSetter Event="Click" Handler="CardFlip_Click" />
             <!-- Handler="CardFlip_Click" Handler="btnField_Click" -->
         </Style>
     </Window.Resources>
-    <StackPanel>
-        <Label Background="#FF41257A" Width="800" Height="100">
-            <Image Width="800" Height="100" Source="D:\MemoryImages\kimochi.png"/>
+    <StackPanel Height="Auto">
+        <Label Background="#FF41257A" Width="800" >
+            <Image Height="150" Source="D:\MemoryImages\kimochi.png"/>
         </Label>
-        <Grid x:Name="FieldGrid" Background="Black">
+        <Grid x:Name="FieldGrid" Background="#FF41257A" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
-                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="4*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="200" />
-                <RowDefinition Height="200" />
-                <RowDefinition Height="200" />
-                <RowDefinition Height="200" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="2*" />
             </Grid.RowDefinitions>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="0" >
+                <StackPanel/>
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="0" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="0" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="0" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="1" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="1" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="1" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="1" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="2" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="2" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="2" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="2" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="3" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="3" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="3" >
+                <StackPanel/>
+
             </Button>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="3" >
+                <StackPanel/>
+
             </Button>
         </Grid>
-        <StackPanel Orientation="Horizontal" Background="#FF41257A">
-            <StackPanel Orientation="Vertical">
-                <TextBlock x:Name="tblPoints" Text="Points" Foreground="White"/>
-                <TextBlock x:Name="tblTurns" Text="Turns" Foreground="White"/>
-                <TextBlock x:Name="lblTime" Text="Time" Foreground="White"/>
+        <StackPanel Orientation="Horizontal" Background="#FF41257A" Height="Auto">
+            <StackPanel Width="Auto" Orientation="Vertical">
+                <TextBlock x:Name="tblPoints" Text="Points" Height="30" Foreground="White"/>
+                <TextBlock x:Name="tblTurns" Text="Turns" Height="30" Foreground="White"/>
+                <TextBlock x:Name="lblTime" Text="Time" Height="30" Foreground="White"/>
             </StackPanel>
-            <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Height="100" Margin="0,0,0,0" HorizontalAlignment="Right" Background="#FF41257A" Foreground="White">
+            <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Margin="500,10,0,10" Background="#FF41257A" Foreground="White">
                 <Image Source="D:\MemoryImages\reset.png" />
             </Button>
         </StackPanel>

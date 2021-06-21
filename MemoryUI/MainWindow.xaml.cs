@@ -68,6 +68,8 @@ namespace MemoryUI
             InitializeComponent();
 
             List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
+            string cardBackground = "/Images/back.png";
+            List<String> ImagesOnField = new();
 
             // duplicate content of List Images
             for (int imgID = Images.Count - 1; imgID > -1; imgID--)
@@ -80,37 +82,58 @@ namespace MemoryUI
             for (int btnID = 0; btnID < FieldGrid.Children.Count; btnID++)
             {
                 int tempInt = rndGen.Next(Images.Count);
-                Uri uri = new(Images[tempInt], UriKind.Relative);
-                Image cardBack = new();
-                cardBack.Source = new BitmapImage(uri);
-                cardBack.Width = 100;
-                cardBack.Height = 100;
-                (FieldGrid.Children[btnID] as Button).Content = cardBack;
+                Uri uriFront = new(Images[tempInt], UriKind.Relative);
+                ImagesOnField.Add(Images[tempInt]);
+                Image cardFront = new();
+                cardFront.Source = new BitmapImage(uriFront);
+                cardFront.Width = 150;
+                cardFront.Height = 150;
+                cardFront.Visibility = Visibility.Collapsed;
+                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardFront);
                 Images.RemoveAt(tempInt);
+
+                Uri uriBack = new(cardBackground, UriKind.Relative);
+                Image cardBack = new();
+                cardBack.Source = new BitmapImage(uriBack);
+                cardBack.Width = 150;
+                cardBack.Height = 150;
+                cardBack.Visibility = Visibility.Visible;
+                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBack);
             }
+            //for (int btnID = 0; btnID < FieldGrid.Children.Count; btnID++)
+            //{
+            //    Uri uri = new(cardBackground, UriKind.Relative);
+            //    Image cardBack = new();
+            //    cardBack.Source = new BitmapImage(uri);
+            //    cardBack.Width = 100;
+            //    cardBack.Height = 100;
+            //    cardBack.Visibility = Visibility.Visible;
+            //    ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBack);
+            //}
         }
 
-         //switch visibility of image cardBack/cardFront on click( "flip card" )
-        //void CardFlip_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Image cardBack = ((sender as Button).Content as StackPanel).Children[0] as Image;
-        //    Image cardFront = ((sender as Button).Content as StackPanel).Children[1] as Image;
-
-        //    if (cardBack.Visibility == Visibility.Visible)
-        //    {
-        //        cardBack.Visibility = Visibility.Collapsed;
-        //        cardFront.Visibility = Visibility.Visible;
-        //    }
-        //    else
-        //    {
-        //        cardBack.Visibility = Visibility.Visible;
-        //        cardFront.Visibility = Visibility.Collapsed;
-        //    }
-        //}
-
-        private void Button_Click(object sender, RoutedEventArgs e)
+        //switch visibility of image cardBack/cardFront on click( "flip card" )
+        void CardFlip_Click(object sender, RoutedEventArgs e)
         {
+            if (!Timer.IsEnabled)
+            {
+                mTimeGameStart = DateTime.Now;
+                Timer.Start();
+            }
 
+            Image cardBack = ((sender as Button).Content as StackPanel).Children[0] as Image;
+            Image cardFront = ((sender as Button).Content as StackPanel).Children[1] as Image;
+
+            if (cardBack.Visibility == Visibility.Visible)
+            {
+                cardBack.Visibility = Visibility.Collapsed;
+                cardFront.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                cardBack.Visibility = Visibility.Visible;
+                cardFront.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void btnField_Click(object sender, RoutedEventArgs e)
@@ -165,7 +188,7 @@ namespace MemoryUI
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
-            
+
         }
     }
 }
