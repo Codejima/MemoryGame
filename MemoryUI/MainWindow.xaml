@@ -5,94 +5,75 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryUI"
         mc:Ignorable="d"
-        Title="kimochi" Height="800" Width="800">
+        Title="kimochi" Height="1000" Width="800">
     <Window.Resources>
         <Style TargetType="Button" x:Key="FieldButtonStyle">
             <Setter Property="Margin" Value="10"/>
             <Setter Property="Background" Value="Black"/>
-            <EventSetter Event="Click" Handler="btnField_Click"/>
+            <EventSetter Event="Click" Handler="btnField_Click" />
+            <!-- Handler="CardFlip_Click" Handler="btnField_Click" -->
         </Style>
     </Window.Resources>
-    <Grid Background="Black" >
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-            <ColumnDefinition Width="200"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="4*" />
-            <RowDefinition Height="4*" />
-        </Grid.RowDefinitions>
-        <Label Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" HorizontalAlignment="Center">
-            <Image Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Source="D:\MemoryImages\kimochi.png"/>
+    <StackPanel>
+        <Label Background="#FF41257A" Width="800" Height="100">
+            <Image Width="800" Height="100" Source="D:\MemoryImages\kimochi.png"/>
         </Label>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="1" >
-            <StackPanel >
-                <Image Source="D:\MemoryImages\back.png" Visibility="Collapsed" />
-                <Image Source="D:\MemoryImages\1.png" Visibility="Visible" Height="100" Width="100"/>
+        <Grid x:Name="FieldGrid" Background="Black">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="200" />
+                <RowDefinition Height="200" />
+                <RowDefinition Height="200" />
+                <RowDefinition Height="200" />
+            </Grid.RowDefinitions>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="0" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="0" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="0" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="0" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="1" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="1" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="1" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="1" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="2" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="2" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="2" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="2" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="3" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="3" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="3" >
+            </Button>
+            <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="3" >
+            </Button>
+        </Grid>
+        <StackPanel Orientation="Horizontal" Background="#FF41257A">
+            <StackPanel Orientation="Vertical">
+                <TextBlock x:Name="tblPoints" Text="Points" Foreground="White"/>
+                <TextBlock x:Name="tblTurns" Text="Turns" Foreground="White"/>
+                <TextBlock x:Name="lblTime" Text="Time" Foreground="White"/>
             </StackPanel>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="1" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="1" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="1" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="2" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="2" >
-            <StackPanel>
-                <Image Source="D:\MemoryImages\back.png" Visibility="Collapsed"/>
-                <Image Source="D:\MemoryImages\7.png" Visibility="Visible" Height="100" Width="100"/>
-            </StackPanel>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="2" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="2" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="3" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="3" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="3" >
-            <StackPanel>
-                <Image Source="D:\MemoryImages\back.png" Visibility="Collapsed"/>
-                <Image Source="D:\MemoryImages\3.png" Visibility="Visible" Height="100" Width="100"/>
-            </StackPanel>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="3" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="4" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="1" Grid.Row="4" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="2" Grid.Row="4" >
-            <Image Source="D:\MemoryImages\back.png"/>
-        </Button>
-        <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="3" Grid.Row="4" >
-            <StackPanel>
-                <Image Source="D:\MemoryImages\back.png" Visibility="Collapsed"/>
-                <Image Source="D:\MemoryImages\4.png" Visibility="Visible" Height="100" Width="100"/>
-            </StackPanel>
-        </Button>
-        <Button x:Name="btnReset" Click="btnReset_Click" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="4" Margin="300,50,300,20" Background="#FF41257A" Foreground="White">
-            <Image Source="D:\MemoryImages\reset.png" />
-        </Button>
-    </Grid>
+            <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Height="100" Margin="0,0,0,0" HorizontalAlignment="Right" Background="#FF41257A" Foreground="White">
+                <Image Source="D:\MemoryImages\reset.png" />
+            </Button>
+        </StackPanel>
+    </StackPanel>
+
 </Window>

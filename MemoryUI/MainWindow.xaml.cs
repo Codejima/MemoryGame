@@ -33,7 +33,7 @@ namespace MemoryUI
                 if (mTimer is null)
                 {
                     mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
-                        DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds.ToString()}", Dispatcher.CurrentDispatcher);
+                        DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds}", Dispatcher.CurrentDispatcher);
                 }
                 return mTimer;
             }
@@ -51,6 +51,7 @@ namespace MemoryUI
             }
         }
         private int mTurns;
+
         public int Turns
         {
             get { return mTurns; }
@@ -65,7 +66,47 @@ namespace MemoryUI
         public MainWindow()
         {
             InitializeComponent();
+
+            List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
+
+            // duplicate content of List Images
+            for (int imgID = Images.Count - 1; imgID > -1; imgID--)
+            {
+                Images.Add(Images[imgID]);
+            }
+
+            // fill FieldGrid with cardBack Image and random cardFront Image
+            Random rndGen = new();
+            for (int btnID = 0; btnID < FieldGrid.Children.Count; btnID++)
+            {
+                int tempInt = rndGen.Next(Images.Count);
+                Uri uri = new(Images[tempInt], UriKind.Relative);
+                Image cardBack = new();
+                cardBack.Source = new BitmapImage(uri);
+                cardBack.Width = 100;
+                cardBack.Height = 100;
+                (FieldGrid.Children[btnID] as Button).Content = cardBack;
+                Images.RemoveAt(tempInt);
+            }
         }
+
+         //switch visibility of image cardBack/cardFront on click( "flip card" )
+        //void CardFlip_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Image cardBack = ((sender as Button).Content as StackPanel).Children[0] as Image;
+        //    Image cardFront = ((sender as Button).Content as StackPanel).Children[1] as Image;
+
+        //    if (cardBack.Visibility == Visibility.Visible)
+        //    {
+        //        cardBack.Visibility = Visibility.Collapsed;
+        //        cardFront.Visibility = Visibility.Visible;
+        //    }
+        //    else
+        //    {
+        //        cardBack.Visibility = Visibility.Visible;
+        //        cardFront.Visibility = Visibility.Collapsed;
+        //    }
+        //}
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
@@ -104,7 +145,7 @@ namespace MemoryUI
                 Turns++;
 
                 // comparison
-                if ((mFirstSelectedButton.Content as Image).Source != (mSecondSelectedButton.Content as Image).Source) 
+                if ((mFirstSelectedButton.Content as Image).Source != (mSecondSelectedButton.Content as Image).Source)
                 {
                     return;
                 }
@@ -124,7 +165,7 @@ namespace MemoryUI
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
-
+            
         }
     }
 }
