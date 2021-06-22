@@ -25,22 +25,8 @@ namespace MemoryUI
         private Button mFirstSelectedButton;
         private Button mSecondSelectedButton;
         private DateTime mTimeGameStart;
-
-        //TODO: Timer needs fixing - format of displayed time is not correct
-        public DispatcherTimer Timer
-        {
-            get
-            {
-                if (mTimer is null)
-                {
-                    mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
-                        DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds}", Dispatcher.CurrentDispatcher);
-                }
-                return mTimer;
-            }
-        }
         private DispatcherTimer mTimer;
-
+        
         private int mPoints;
         public int Points
         {
@@ -90,6 +76,7 @@ namespace MemoryUI
                 cardFront.Source = new BitmapImage(uriFront);
                 cardFront.Width = 150;
                 cardFront.Height = 150;
+                cardFront.Name = "imageName" + Images[tempInt][8..^4];
                 cardFront.Visibility = Visibility.Collapsed;
                 ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardFront);
                 Images.RemoveAt(tempInt);
@@ -102,16 +89,20 @@ namespace MemoryUI
                 cardBack.Visibility = Visibility.Visible;
                 ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBack);
             }
+
+            mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
+                        DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds.ToString("N1")}", Dispatcher.CurrentDispatcher);
+            mTimer.Stop();
         }
 
         //switch visibility of image cardBack/cardFront on click( "flip card" )
         void CardFlip_Click(object sender, RoutedEventArgs e)
         {
             //start round timer on first card pick
-            if (!Timer.IsEnabled)
+            if (!mTimer.IsEnabled)
             {
                 mTimeGameStart = DateTime.Now;
-                Timer.Start();
+                mTimer.Start();
             }
 
             ///////////////////////////////
@@ -159,8 +150,8 @@ namespace MemoryUI
 
         private void CardTurnaround(Button card)
         {
-            Image cardBack = (card.Content as StackPanel).Children[0] as Image;
-            Image cardFront = (card.Content as StackPanel).Children[1] as Image;
+            Image cardBack = (card.Content as StackPanel).Children[1] as Image;
+            Image cardFront = (card.Content as StackPanel).Children[0] as Image;
 
             if (cardBack.Visibility == Visibility.Visible)
             {
