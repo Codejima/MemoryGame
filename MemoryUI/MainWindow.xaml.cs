@@ -52,39 +52,7 @@ namespace MemoryUI
         public MainWindow()
         {
             InitializeComponent();
-
-            List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
-            string cardBackground = "/Images/back.png";
-
-            // duplicate content of List Images
-            for (int imgID = Images.Count - 1; imgID > -1; imgID--)
-            {
-                Images.Add(Images[imgID]);
-            }
-
-            // fill FieldGrid with cardBack Image and random cardFront Image
-            Random rndGen = new();
-            for (int btnID = 0; btnID < FieldGrid.Children.Count; btnID++)
-            {
-                int tempInt = rndGen.Next(Images.Count);
-                Uri uriFront = new(Images[tempInt], UriKind.Relative);
-                Image cardFront = new();
-                cardFront.Source = new BitmapImage(uriFront);
-                cardFront.Width = 150;
-                cardFront.Height = 150;
-                cardFront.Name = "imageName" + Images[tempInt][8..^4];
-                cardFront.Visibility = Visibility.Collapsed;
-                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardFront);
-                Images.RemoveAt(tempInt);
-
-                Uri uriBack = new(cardBackground, UriKind.Relative);
-                Image cardBack = new();
-                cardBack.Source = new BitmapImage(uriBack);
-                cardBack.Width = 150;
-                cardBack.Height = 150;
-                cardBack.Visibility = Visibility.Visible;
-                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBack);
-            }
+            ResetGame();
 
             mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
                         DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds.ToString("N1")}", Dispatcher.CurrentDispatcher);
@@ -139,7 +107,7 @@ namespace MemoryUI
                 mSecondSelectedButton = null;
                 Points++;
                 //TODO: add Timer.Stop(); to end of game
-                // if
+                // if (endofgame)
             }
         }
 
@@ -159,20 +127,15 @@ namespace MemoryUI
                 cardFront.Visibility = Visibility.Collapsed;
             }
         }
-
-        private void btnReset_Click(object sender, RoutedEventArgs e)
+        private void ResetGame()
         {
-            //TODO:
-            //flip cards
-            
-
             //enables card buttons (if disabled)
             foreach (var item in FieldGrid.Children)
             {
                 (item as Button).IsEnabled = true;
             }
             
-            // correct
+            // resets selected buttons
             mFirstSelectedButton = null;
             mSecondSelectedButton = null;
 
@@ -207,6 +170,12 @@ namespace MemoryUI
                 cardBackReset.Visibility = Visibility.Visible;
                 ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBackReset);
             }
+
+        }
+
+        private void btnReset_Click(object sender, RoutedEventArgs e)
+        {
+            ResetGame();
         }
     }
 }
