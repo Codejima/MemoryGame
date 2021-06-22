@@ -55,7 +55,6 @@ namespace MemoryUI
 
             List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
             string cardBackground = "/Images/back.png";
-            List<String> ImagesOnField = new();
 
             // duplicate content of List Images
             for (int imgID = Images.Count - 1; imgID > -1; imgID--)
@@ -69,7 +68,6 @@ namespace MemoryUI
             {
                 int tempInt = rndGen.Next(Images.Count);
                 Uri uriFront = new(Images[tempInt], UriKind.Relative);
-                ImagesOnField.Add(Images[tempInt]);
                 Image cardFront = new();
                 cardFront.Source = new BitmapImage(uriFront);
                 cardFront.Width = 150;
@@ -166,33 +164,48 @@ namespace MemoryUI
         {
             //TODO:
             //flip cards
-            //enable card buttons (if disabled)
-            //shuffle cards / fill board again
+            
 
+            //enables card buttons (if disabled)
+            foreach (var item in FieldGrid.Children)
+            {
+                (item as Button).IsEnabled = true;
+            }
+            
+            // correct
+            mFirstSelectedButton = null;
+            mSecondSelectedButton = null;
+
+            //shuffle cards / fill board again
+            
             List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
             string cardBackground = "/Images/back.png";
-            List<String> ImagesOnField = new();
+            for (int imgID = Images.Count - 1; imgID > -1; imgID--)
+            {
+                Images.Add(Images[imgID]);
+            }
             Random rndGen = new();
             for (int btnID = 0; btnID < FieldGrid.Children.Count; btnID++)
             {
+                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Clear();
+
                 int tempInt = rndGen.Next(Images.Count);
                 Uri uriFront = new(Images[tempInt], UriKind.Relative);
-                ImagesOnField.Add(Images[tempInt]);
-                Image cardFront = new();
-                cardFront.Source = new BitmapImage(uriFront);
-                cardFront.Width = 150;
-                cardFront.Height = 150;
-                cardFront.Visibility = Visibility.Collapsed;
-                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardFront);
+                Image cardFrontReset = new();
+                cardFrontReset.Source = new BitmapImage(uriFront);
+                cardFrontReset.Width = 150;
+                cardFrontReset.Height = 150;
+                cardFrontReset.Visibility = Visibility.Collapsed;
+                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardFrontReset);
                 Images.RemoveAt(tempInt);
 
                 Uri uriBack = new(cardBackground, UriKind.Relative);
-                Image cardBack = new();
-                cardBack.Source = new BitmapImage(uriBack);
-                cardBack.Width = 150;
-                cardBack.Height = 150;
-                cardBack.Visibility = Visibility.Visible;
-                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBack);
+                Image cardBackReset = new();
+                cardBackReset.Source = new BitmapImage(uriBack);
+                cardBackReset.Width = 150;
+                cardBackReset.Height = 150;
+                cardBackReset.Visibility = Visibility.Visible;
+                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBackReset);
             }
         }
     }
