@@ -26,6 +26,7 @@ namespace MemoryUI
         private Button mSecondSelectedButton;
         private DateTime mTimeGameStart;
 
+        //TODO: Timer needs fixing - format of displayed time is not correct
         public DispatcherTimer Timer
         {
             get
@@ -66,6 +67,7 @@ namespace MemoryUI
         public MainWindow()
         {
             InitializeComponent();
+            
 
             List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
             string cardBackground = "/Images/back.png";
@@ -100,29 +102,65 @@ namespace MemoryUI
                 cardBack.Visibility = Visibility.Visible;
                 ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBack);
             }
-            //for (int btnID = 0; btnID < FieldGrid.Children.Count; btnID++)
-            //{
-            //    Uri uri = new(cardBackground, UriKind.Relative);
-            //    Image cardBack = new();
-            //    cardBack.Source = new BitmapImage(uri);
-            //    cardBack.Width = 100;
-            //    cardBack.Height = 100;
-            //    cardBack.Visibility = Visibility.Visible;
-            //    ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBack);
-            //}
         }
 
         //switch visibility of image cardBack/cardFront on click( "flip card" )
         void CardFlip_Click(object sender, RoutedEventArgs e)
         {
+            //start round timer on first card pick
             if (!Timer.IsEnabled)
             {
                 mTimeGameStart = DateTime.Now;
                 Timer.Start();
             }
 
-            Image cardBack = ((sender as Button).Content as StackPanel).Children[0] as Image;
-            Image cardFront = ((sender as Button).Content as StackPanel).Children[1] as Image;
+            ///////////////////////////////
+            if (mFirstSelectedButton is not null && mSecondSelectedButton is not null)
+            {
+                CardTurnaround(mFirstSelectedButton);
+                CardTurnaround(mSecondSelectedButton);
+
+                mFirstSelectedButton = sender as Button;
+                mSecondSelectedButton = null;
+
+                CardTurnaround(mFirstSelectedButton);
+                return;
+            }
+
+            if (mFirstSelectedButton is null)
+            {
+                // first selection
+                mFirstSelectedButton = sender as Button;
+                CardTurnaround(mFirstSelectedButton);
+            }
+            else
+            {
+                // second selection
+                mSecondSelectedButton = sender as Button;
+                CardTurnaround(mSecondSelectedButton);
+                Turns++;
+
+                // comparison
+                //if ((mFirstSelectedButton.Content as Image).Name != (mSecondSelectedButton.Content as Image).Name)
+                if (((mFirstSelectedButton.Content as StackPanel).Children[0] as Image).Name != ((mSecondSelectedButton.Content as StackPanel).Children[0] as Image).Name)
+                {
+                    return;
+                }
+                // hide & reset
+                mFirstSelectedButton.IsEnabled = false;
+                mSecondSelectedButton.IsEnabled = false;
+                mFirstSelectedButton = null;
+                mSecondSelectedButton = null;
+                Points++;
+                //TODO: add Timer.Stop(); to end of game
+                // if
+            }
+        }
+
+        private void CardTurnaround(Button card)
+        {
+            Image cardBack = (card.Content as StackPanel).Children[0] as Image;
+            Image cardFront = (card.Content as StackPanel).Children[1] as Image;
 
             if (cardBack.Visibility == Visibility.Visible)
             {
@@ -136,59 +174,38 @@ namespace MemoryUI
             }
         }
 
-        private void btnField_Click(object sender, RoutedEventArgs e)
-        {
-            if (!Timer.IsEnabled)
-            {
-                mTimeGameStart = DateTime.Now;
-                Timer.Start();
-            }
-            if (mFirstSelectedButton is not null && mSecondSelectedButton is not null)
-            {
-                (mFirstSelectedButton.Content as Image).Visibility = Visibility.Collapsed;
-                (mSecondSelectedButton.Content as Image).Visibility = Visibility.Collapsed;
-
-                mFirstSelectedButton = null;
-                mSecondSelectedButton = null;
-                // show selected button
-                ((sender as Button).Content as Image).Visibility = Visibility.Visible;
-                return;
-            }
-
-
-            if (mFirstSelectedButton is null)
-            {
-                // first selection
-                mFirstSelectedButton = sender as Button;
-            }
-            else
-            {
-                // second selection
-                mSecondSelectedButton = sender as Button;
-                Turns++;
-
-                // comparison
-                if ((mFirstSelectedButton.Content as Image).Source != (mSecondSelectedButton.Content as Image).Source)
-                {
-                    return;
-                }
-
-                mFirstSelectedButton.IsEnabled = false;
-                mSecondSelectedButton.IsEnabled = false;
-                mFirstSelectedButton = null;
-                mSecondSelectedButton = null;
-                Points++;
-                Timer.Stop();
-            }
-
-            //if first selection empty
-            //  save selected button as first selection
-            //else (first NOT empty, second empty)
-        }
-
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
+            //TODO:
+            //flip cards
+            //enable card buttons (if disabled)
+            //shuffle cards / fill board again
 
+            List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
+            string cardBackground = "/Images/back.png";
+            List<String> ImagesOnField = new();
+            Random rndGen = new();
+            for (int btnID = 0; btnID < FieldGrid.Children.Count; btnID++)
+            {
+                int tempInt = rndGen.Next(Images.Count);
+                Uri uriFront = new(Images[tempInt], UriKind.Relative);
+                ImagesOnField.Add(Images[tempInt]);
+                Image cardFront = new();
+                cardFront.Source = new BitmapImage(uriFront);
+                cardFront.Width = 150;
+                cardFront.Height = 150;
+                cardFront.Visibility = Visibility.Collapsed;
+                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardFront);
+                Images.RemoveAt(tempInt);
+
+                Uri uriBack = new(cardBackground, UriKind.Relative);
+                Image cardBack = new();
+                cardBack.Source = new BitmapImage(uriBack);
+                cardBack.Width = 150;
+                cardBack.Height = 150;
+                cardBack.Visibility = Visibility.Visible;
+                ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBack);
+            }
         }
     }
 }
