@@ -98,9 +98,9 @@
         </Grid>
         <StackPanel Orientation="Horizontal" Background="#FF41257A" Height="Auto">
             <StackPanel Width="Auto" Orientation="Vertical" >
-                <TextBlock x:Name="tblPoints" Text="Points" Height="30" Width="60" Foreground="White" Margin="20,40,0,0"/>
-                <TextBlock x:Name="tblTurns" Text="Turns" Height="30" Width="60" Foreground="White" Margin="20,10,0,0"/>
-                <TextBlock x:Name="lblTime" Text="Time" Height="30" Width="60" Foreground="White" Margin="20,10,0,0"/>
+                <TextBlock x:Name="tblPoints" Text="Points: 0" Height="30" Width="60" Foreground="White" Margin="20,40,0,0"/>
+                <TextBlock x:Name="tblTurns" Text="Turns: 0" Height="30" Width="60" Foreground="White" Margin="20,10,0,0"/>
+                <TextBlock x:Name="lblTime" Text="Time:" Height="30" Width="60" Foreground="White" Margin="20,10,0,0"/>
             </StackPanel>
             <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Margin="480,60,20,20" Background="#FF41257A" Foreground="White">
                 <Image Source="D:\MemoryImages\reset.png" />

@@ -26,7 +26,7 @@ namespace MemoryUI
         private Button mSecondSelectedButton;
         private DateTime mTimeGameStart;
         private DispatcherTimer mTimer;
-        
+
         private int mPoints;
         public int Points
         {
@@ -37,8 +37,8 @@ namespace MemoryUI
                 tblPoints.Text = "Points: " + mPoints;
             }
         }
-        private int mTurns;
 
+        private int mTurns;
         public int Turns
         {
             get { return mTurns; }
@@ -55,7 +55,7 @@ namespace MemoryUI
             ResetGame();
 
             mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
-                        DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds.ToString("N1")}", Dispatcher.CurrentDispatcher);
+                        DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds:N1}", Dispatcher.CurrentDispatcher);
             mTimer.Stop();
         }
 
@@ -98,6 +98,7 @@ namespace MemoryUI
                 //if ((mFirstSelectedButton.Content as Image).Name != (mSecondSelectedButton.Content as Image).Name)
                 if (((mFirstSelectedButton.Content as StackPanel).Children[0] as Image).Name != ((mSecondSelectedButton.Content as StackPanel).Children[0] as Image).Name)
                 {
+                    Points = Points - 2;
                     return;
                 }
                 // hide & reset
@@ -105,7 +106,7 @@ namespace MemoryUI
                 mSecondSelectedButton.IsEnabled = false;
                 mFirstSelectedButton = null;
                 mSecondSelectedButton = null;
-                Points++;
+                Points = Points + 5;
                 //TODO: add Timer.Stop(); to end of game
                 // if (endofgame)
             }
@@ -134,13 +135,11 @@ namespace MemoryUI
             {
                 (item as Button).IsEnabled = true;
             }
-            
             // resets selected buttons
             mFirstSelectedButton = null;
             mSecondSelectedButton = null;
 
-            //shuffle cards / fill board again
-            
+            // fill board
             List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
             string cardBackground = "/Images/back.png";
             for (int imgID = Images.Count - 1; imgID > -1; imgID--)
@@ -158,6 +157,7 @@ namespace MemoryUI
                 cardFrontReset.Source = new BitmapImage(uriFront);
                 cardFrontReset.Width = 150;
                 cardFrontReset.Height = 150;
+                cardFrontReset.Name = "imageName" + Images[tempInt][8..^4];
                 cardFrontReset.Visibility = Visibility.Collapsed;
                 ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardFrontReset);
                 Images.RemoveAt(tempInt);
@@ -170,7 +170,10 @@ namespace MemoryUI
                 cardBackReset.Visibility = Visibility.Visible;
                 ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBackReset);
             }
-
+            //TODO: reset timer
+            Points = Points * 0;
+            Turns = Turns * 0;
+            mTimer.Stop();
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
