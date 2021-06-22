@@ -17,10 +17,8 @@
             <!-- Handler="CardFlip_Click" Handler="btnField_Click" -->
         </Style>
     </Window.Resources>
-    <StackPanel Height="Auto">
-        <Label Background="#FF41257A" Width="800" >
-            <Image Height="150" Source="D:\MemoryImages\kimochi.png"/>
-        </Label>
+    <StackPanel Height="Auto" Background="#FF41257A">
+        <Image Height="150" Source="D:\MemoryImages\kimochi.png"/>
         <Grid x:Name="FieldGrid" Background="#FF41257A" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
@@ -99,12 +97,12 @@
             </Button>
         </Grid>
         <StackPanel Orientation="Horizontal" Background="#FF41257A" Height="Auto">
-            <StackPanel Width="Auto" Orientation="Vertical">
-                <TextBlock x:Name="tblPoints" Text="Points" Height="30" Foreground="White"/>
-                <TextBlock x:Name="tblTurns" Text="Turns" Height="30" Foreground="White"/>
-                <TextBlock x:Name="lblTime" Text="Time" Height="30" Foreground="White"/>
+            <StackPanel Width="Auto" Orientation="Vertical" >
+                <TextBlock x:Name="tblPoints" Text="Points" Height="30" Width="60" Foreground="White" Margin="20,40,0,0"/>
+                <TextBlock x:Name="tblTurns" Text="Turns" Height="30" Width="60" Foreground="White" Margin="20,10,0,0"/>
+                <TextBlock x:Name="lblTime" Text="Time" Height="30" Width="60" Foreground="White" Margin="20,10,0,0"/>
             </StackPanel>
-            <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Margin="500,10,0,10" Background="#FF41257A" Foreground="White">
+            <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Margin="480,60,20,20" Background="#FF41257A" Foreground="White">
                 <Image Source="D:\MemoryImages\reset.png" />
             </Button>
         </StackPanel>
