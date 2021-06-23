@@ -1,18 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 using System.Windows.Threading;
 
 namespace MemoryUI
@@ -96,7 +86,6 @@ namespace MemoryUI
                 Turns++;
 
                 // comparison
-                //if ((mFirstSelectedButton.Content as Image).Name != (mSecondSelectedButton.Content as Image).Name)
                 if (((mFirstSelectedButton.Content as StackPanel).Children[0] as Image).Name != ((mSecondSelectedButton.Content as StackPanel).Children[0] as Image).Name)
                 {
                     Points = Points - 2;
@@ -139,10 +128,10 @@ namespace MemoryUI
         private void ResetGame()
         {
             //enables card buttons (if disabled)
-            //foreach (var item in FieldGrid.Children)
-            //{
-            //    (item as Button).IsEnabled = true;
-            //}
+            foreach (var item in FieldGrid.Children)
+            {
+                (item as Button).IsEnabled = true;
+            }
             // resets selected buttons
             mFirstSelectedButton = null;
             mSecondSelectedButton = null;
@@ -182,9 +171,9 @@ namespace MemoryUI
             {
                 (item as Button).IsEnabled = true;
             }
-            //TODO: reset timer
             Points = Points * 0;
             Turns = Turns * 0;
+            lblTime.Text = "Time: 0";
             GameEndImage.Visibility = Visibility.Collapsed;
         }
 

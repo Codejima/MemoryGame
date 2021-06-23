@@ -18,6 +18,7 @@
     <None Remove="Images\back.png" />
     <None Remove="Images\kimochi.png" />
     <None Remove="Images\reset.png" />
+    <None Remove="Images\resetpointer.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -36,6 +37,7 @@
     <Resource Include="Images\back.png" />
     <Resource Include="Images\kimochi.png" />
     <Resource Include="Images\reset.png" />
+    <Resource Include="Images\resetpointer.png" />
   </ItemGroup>
 
 </Project>
