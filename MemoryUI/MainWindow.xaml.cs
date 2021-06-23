@@ -92,10 +92,7 @@ namespace MemoryUI
                 // comparison
                 if (((mFirstSelectedButton.Content as StackPanel).Children[0] as Image).Name != ((mSecondSelectedButton.Content as StackPanel).Children[0] as Image).Name)
                 {
-                    if (Points > 1)
-                    {
-                        Points = Points - 2;
-                    }
+                    Points = Math.Max(0, Points - 2);
                     return;
                 }
                 // hide & reset
