@@ -102,7 +102,7 @@ namespace MemoryUI
                 mSecondSelectedButton = null;
                 Points = Points + 5;
                 pairedCards++;
-                if (pairedCards == 8) //TODO: change 8 to list.count or something
+                if (pairedCards == numberOfCards)
                 {
                     mTimer.Stop();
                     GameEndImage.Visibility = Visibility.Visible;
@@ -125,6 +125,7 @@ namespace MemoryUI
                 cardFront.Visibility = Visibility.Collapsed;
             }
         }
+        int numberOfCards;
         private void ResetGame()
         {
             //enables card buttons (if disabled)
@@ -139,6 +140,7 @@ namespace MemoryUI
             // fill board
             List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
             string cardBackground = "/Images/back.png";
+            numberOfCards = Images.Count;
             for (int imgID = Images.Count - 1; imgID > -1; imgID--)
             {
                 Images.Add(Images[imgID]);
