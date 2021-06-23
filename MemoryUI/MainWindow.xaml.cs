@@ -60,6 +60,7 @@ namespace MemoryUI
         }
 
         //switch visibility of image cardBack/cardFront on click( "flip card" )
+        int pairedCards;
         void CardFlip_Click(object sender, RoutedEventArgs e)
         {
             //start round timer on first card pick
@@ -107,8 +108,15 @@ namespace MemoryUI
                 mFirstSelectedButton = null;
                 mSecondSelectedButton = null;
                 Points = Points + 5;
+                pairedCards++;
+                //TODO: add win condition to end game
                 //TODO: add Timer.Stop(); to end of game
                 // if (endofgame)
+                if (pairedCards == 8) //change 8 to list.count or something
+                {
+                    mTimer.Stop();
+                    GameEndImage.Visibility = Visibility.Visible;
+                }
             }
         }
 
@@ -131,10 +139,10 @@ namespace MemoryUI
         private void ResetGame()
         {
             //enables card buttons (if disabled)
-            foreach (var item in FieldGrid.Children)
-            {
-                (item as Button).IsEnabled = true;
-            }
+            //foreach (var item in FieldGrid.Children)
+            //{
+            //    (item as Button).IsEnabled = true;
+            //}
             // resets selected buttons
             mFirstSelectedButton = null;
             mSecondSelectedButton = null;
@@ -170,10 +178,14 @@ namespace MemoryUI
                 cardBackReset.Visibility = Visibility.Visible;
                 ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardBackReset);
             }
+            foreach (var item in FieldGrid.Children)
+            {
+                (item as Button).IsEnabled = true;
+            }
             //TODO: reset timer
             Points = Points * 0;
             Turns = Turns * 0;
-            mTimer.Stop();
+            GameEndImage.Visibility = Visibility.Collapsed;
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)

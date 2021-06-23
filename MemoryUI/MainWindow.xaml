@@ -95,6 +95,8 @@
                 <StackPanel/>
 
             </Button>
+            <Image x:Name="GameEndImage" Grid.Column="0" Grid.Row="0" Grid.ColumnSpan="4" Grid.RowSpan="4" Source="/Images/back.png" Opacity="0.9" Width="600" Height="600" Visibility="Collapsed" />
+
         </Grid>
         <StackPanel Orientation="Horizontal" Background="#FF41257A" Height="Auto">
             <StackPanel Width="Auto" Orientation="Vertical" >
