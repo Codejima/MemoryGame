@@ -42,13 +42,11 @@ namespace MemoryUI
         public MainWindow()
         {
             InitializeComponent();
-            ResetGame();
 
             mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
                         DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds:N1}", Dispatcher.CurrentDispatcher);
-            mTimer.Stop();
+            ResetGame();
         }
-
         //switch visibility of image cardBack/cardFront on click( "flip card" )
         int pairedCards;
         void CardFlip_Click(object sender, RoutedEventArgs e)
@@ -81,9 +79,15 @@ namespace MemoryUI
             else
             {
                 // second selection
+                if (mFirstSelectedButton == sender)
+                {
+                    CardTurnaround(mFirstSelectedButton);
+                    return;
+                }
+                Turns++; 
                 mSecondSelectedButton = sender as Button;
                 CardTurnaround(mSecondSelectedButton);
-                Turns++;
+
 
                 // comparison
                 if (((mFirstSelectedButton.Content as StackPanel).Children[0] as Image).Name != ((mSecondSelectedButton.Content as StackPanel).Children[0] as Image).Name)
@@ -93,22 +97,18 @@ namespace MemoryUI
                 }
                 // hide & reset
                 mFirstSelectedButton.IsEnabled = false;
-                mSecondSelectedButton.IsEnabled = false;
+                mSecondSelectedButton.IsEnabled = false; 
                 mFirstSelectedButton = null;
                 mSecondSelectedButton = null;
                 Points = Points + 5;
                 pairedCards++;
-                //TODO: add win condition to end game
-                //TODO: add Timer.Stop(); to end of game
-                // if (endofgame)
-                if (pairedCards == 8) //change 8 to list.count or something
+                if (pairedCards == 8) //TODO: change 8 to list.count or something
                 {
                     mTimer.Stop();
                     GameEndImage.Visibility = Visibility.Visible;
                 }
             }
         }
-
         private void CardTurnaround(Button card)
         {
             Image cardBack = (card.Content as StackPanel).Children[1] as Image;
@@ -171,8 +171,10 @@ namespace MemoryUI
             {
                 (item as Button).IsEnabled = true;
             }
-            Points = Points * 0;
-            Turns = Turns * 0;
+            mTimer.Stop();
+            pairedCards = 0;
+            Points = 0;
+            Turns = 0;
             lblTime.Text = "Time: 0";
             GameEndImage.Visibility = Visibility.Collapsed;
         }
