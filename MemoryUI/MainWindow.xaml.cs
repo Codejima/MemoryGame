@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
@@ -24,7 +25,7 @@ namespace MemoryUI
             set
             {
                 mPoints = value;
-                tblPoints.Text = "Points: " + mPoints;
+                tblPoints1.Text = "Points: " + mPoints;
             }
         }
 
@@ -35,17 +36,27 @@ namespace MemoryUI
             set
             {
                 mTurns = value;
-                tblTurns.Text = "Turns: " + mTurns;
+                tblTurns1.Text = "Turns: " + mTurns;
             }
         }
 
+        private List<SolidColorBrush> brushList = new();
         public MainWindow()
         {
             InitializeComponent();
 
             mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
                         DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds:N1}", Dispatcher.CurrentDispatcher);
-            ResetGame();
+            ResetGame("Alpaca");
+            //cmbTheme.ItemsSource = Images;
+
+
+            //var brushPropertiesInfo = Type.GetType(nameof(Brushes)).GetProperties();
+            //foreach (var item in brushPropertiesInfo)
+            //{
+            //    brushList.Add(item.GetMethod.Invoke(null, null) as SolidColorBrush);
+            //}       
+            //brushPropertiesInfo[0].GetValue
         }
         //switch visibility of image cardBack/cardFront on click( "flip card" )
         int pairedCards;
@@ -88,7 +99,6 @@ namespace MemoryUI
                 mSecondSelectedButton = sender as Button;
                 CardTurnaround(mSecondSelectedButton);
 
-
                 // comparison
                 if (((mFirstSelectedButton.Content as StackPanel).Children[0] as Image).Name != ((mSecondSelectedButton.Content as StackPanel).Children[0] as Image).Name)
                 {
@@ -126,7 +136,7 @@ namespace MemoryUI
             }
         }
         int numberOfCards;
-        private void ResetGame()
+        private void ResetGame(string sender)
         {
             //enables card buttons (if disabled)
             foreach (var item in FieldGrid.Children)
@@ -136,10 +146,23 @@ namespace MemoryUI
             // resets selected buttons
             mFirstSelectedButton = null;
             mSecondSelectedButton = null;
-
+            List<string> Images;
             // fill board
-            List<String> Images = new() { "/Images/1.png", "/Images/2.png", "/Images/3.png", "/Images/4.png", "/Images/5.png", "/Images/6.png", "/Images/7.png", "/Images/8.png" };
-            string cardBackground = "/Images/back.png";
+            switch (sender)
+            {
+                case "Alpaca":
+                    Images = new() { "/ImagesAlpaca/1.png", "/ImagesAlpaca/2.png", "/ImagesAlpaca/3.png", "/ImagesAlpaca/4.png", "/ImagesAlpaca/5.png", "/ImagesAlpaca/6.png", "/ImagesAlpaca/7.png", "/ImagesAlpaca/8.png" };
+                    break;
+                case "Sweets":
+                    Images = new() { "/ImagesSweets/1.png", "/ImagesSweets/2.png", "/ImagesSweets/3.png", "/ImagesSweets/4.png", "/ImagesSweets/5.png", "/ImagesSweets/6.png", "/ImagesSweets/7.png", "/ImagesSweets/8.png" };
+                    break;
+                default:
+                    Images = new() { "/ImagesAlpaca/1.png", "/ImagesAlpaca/2.png", "/ImagesAlpaca/3.png", "/ImagesAlpaca/4.png", "/ImagesAlpaca/5.png", "/ImagesAlpaca/6.png", "/ImagesAlpaca/7.png", "/ImagesAlpaca/8.png" };
+                    break;
+            }
+
+            string cardBackground = "/ImagesAlpaca/back.png";
+
             numberOfCards = Images.Count;
             for (int imgID = Images.Count - 1; imgID > -1; imgID--)
             {
@@ -156,7 +179,7 @@ namespace MemoryUI
                 cardFrontReset.Source = new BitmapImage(uriFront);
                 cardFrontReset.Width = 150;
                 cardFrontReset.Height = 150;
-                cardFrontReset.Name = "imageName" + Images[tempInt][8..^4];
+                cardFrontReset.Name = "imageName" + Images[tempInt][14..^4];
                 cardFrontReset.Visibility = Visibility.Collapsed;
                 ((FieldGrid.Children[btnID] as Button).Content as StackPanel).Children.Add(cardFrontReset);
                 Images.RemoveAt(tempInt);
@@ -183,7 +206,15 @@ namespace MemoryUI
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
-            ResetGame();
+            //ResetGame(cmbTheme.SelectedItem.ToString());
+            ResetGame((cmbTheme.SelectedItem as ComboBoxItem).Content.ToString());
+        }
+
+        //TODO: implement below
+        private int mCurrentColourPlayer1;
+        private void btnSwitcher1_Click(object sender, RoutedEventArgs e)
+        {
+            //(sender as Button).Foreground = Brushes.
         }
     }
 }

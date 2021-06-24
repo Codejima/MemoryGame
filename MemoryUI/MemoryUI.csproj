@@ -7,18 +7,37 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\1.png" />
-    <None Remove="Images\2.png" />
-    <None Remove="Images\3.png" />
-    <None Remove="Images\4.png" />
-    <None Remove="Images\5.png" />
-    <None Remove="Images\6.png" />
-    <None Remove="Images\7.png" />
-    <None Remove="Images\8.png" />
-    <None Remove="Images\back.png" />
-    <None Remove="Images\kimochi.png" />
-    <None Remove="Images\reset.png" />
-    <None Remove="Images\resetpointer.png" />
+    <Compile Remove="Images\**" />
+    <EmbeddedResource Remove="Images\**" />
+    <None Remove="Images\**" />
+    <Page Remove="Images\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="ImagesAlpaca\1.png" />
+    <None Remove="ImagesAlpaca\2.png" />
+    <None Remove="ImagesAlpaca\3.png" />
+    <None Remove="ImagesAlpaca\4.png" />
+    <None Remove="ImagesAlpaca\5.png" />
+    <None Remove="ImagesAlpaca\6.png" />
+    <None Remove="ImagesAlpaca\7.png" />
+    <None Remove="ImagesAlpaca\8.png" />
+    <None Remove="ImagesAlpaca\back.png" />
+    <None Remove="ImagesAlpaca\kimochi.png" />
+    <None Remove="ImagesAlpaca\reset.png" />
+    <None Remove="ImagesAlpaca\resetpointer.png" />
+    <None Remove="ImagesSweets\1.png" />
+    <None Remove="ImagesSweets\2.png" />
+    <None Remove="ImagesSweets\3.png" />
+    <None Remove="ImagesSweets\4.png" />
+    <None Remove="ImagesSweets\5.png" />
+    <None Remove="ImagesSweets\6.png" />
+    <None Remove="ImagesSweets\7.png" />
+    <None Remove="ImagesSweets\8.png" />
+    <None Remove="ImagesSweets\back.png" />
+    <None Remove="ImagesSweets\kimochi.png" />
+    <None Remove="ImagesSweets\reset.png" />
+    <None Remove="ImagesSweets\resetpointer.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -26,18 +45,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Images\1.png" />
-    <Resource Include="Images\2.png" />
-    <Resource Include="Images\3.png" />
-    <Resource Include="Images\4.png" />
-    <Resource Include="Images\5.png" />
-    <Resource Include="Images\6.png" />
-    <Resource Include="Images\7.png" />
-    <Resource Include="Images\8.png" />
-    <Resource Include="Images\back.png" />
-    <Resource Include="Images\kimochi.png" />
-    <Resource Include="Images\reset.png" />
-    <Resource Include="Images\resetpointer.png" />
+    <Resource Include="ImagesAlpaca\1.png" />
+    <Resource Include="ImagesAlpaca\2.png" />
+    <Resource Include="ImagesAlpaca\3.png" />
+    <Resource Include="ImagesAlpaca\4.png" />
+    <Resource Include="ImagesAlpaca\5.png" />
+    <Resource Include="ImagesAlpaca\6.png" />
+    <Resource Include="ImagesAlpaca\7.png" />
+    <Resource Include="ImagesAlpaca\8.png" />
+    <Resource Include="ImagesAlpaca\back.png" />
+    <Resource Include="ImagesAlpaca\kimochi.png" />
+    <Resource Include="ImagesAlpaca\reset.png" />
+    <Resource Include="ImagesAlpaca\resetpointer.png" />
+    <Resource Include="ImagesSweets\1.png" />
+    <Resource Include="ImagesSweets\2.png" />
+    <Resource Include="ImagesSweets\3.png" />
+    <Resource Include="ImagesSweets\4.png" />
+    <Resource Include="ImagesSweets\5.png" />
+    <Resource Include="ImagesSweets\6.png" />
+    <Resource Include="ImagesSweets\7.png" />
+    <Resource Include="ImagesSweets\8.png" />
+    <Resource Include="ImagesSweets\back.png" />
+    <Resource Include="ImagesSweets\kimochi.png" />
+    <Resource Include="ImagesSweets\reset.png" />
+    <Resource Include="ImagesSweets\resetpointer.png" />
   </ItemGroup>
 
 </Project>
