@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Media;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -17,6 +18,9 @@ namespace MemoryUI
         private Button mSecondSelectedButton;
         private DateTime mTimeGameStart;
         private DispatcherTimer mTimer;
+        private readonly MediaPlayer mMusic;
+        private readonly SoundPlayer mSound;
+
 
         private int mPoints;
         public int Points
@@ -44,6 +48,12 @@ namespace MemoryUI
         public MainWindow()
         {
             InitializeComponent();
+            mMusic = new();
+            mMusic.Open(new Uri("Audio/Adiantum.mp3", UriKind.Relative));
+            mMusic.Volume = 0.05;
+            mMusic.Play();
+            mMusic.MediaEnded += loop;
+            mSound = new("Audio/bokara.wav");
 
             mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
                         DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds:N1}", Dispatcher.CurrentDispatcher);
@@ -58,6 +68,13 @@ namespace MemoryUI
             //}       
             //brushPropertiesInfo[0].GetValue
         }
+
+        private void loop(object sender, EventArgs e)
+        {
+            mMusic.Position = TimeSpan.Zero;
+            mMusic.Play();
+        }
+
         //switch visibility of image cardBack/cardFront on click( "flip card" )
         int pairedCards;
         void CardFlip_Click(object sender, RoutedEventArgs e)
@@ -112,6 +129,7 @@ namespace MemoryUI
                 mSecondSelectedButton = null;
                 Points = Points + 5;
                 pairedCards++;
+                mSound.Play();
                 if (pairedCards == numberOfCards)
                 {
                     mTimer.Stop();
@@ -215,6 +233,31 @@ namespace MemoryUI
         private void btnSwitcher1_Click(object sender, RoutedEventArgs e)
         {
             //(sender as Button).Foreground = Brushes.
+        }
+
+        private void btnPlay_Click(object sender, RoutedEventArgs e)
+        {
+            mMusic.Play();
+            btnPlay.Visibility = Visibility.Collapsed;
+            btnPause.Visibility = Visibility.Visible;
+        }
+
+        private void btnPause_Click(object sender, RoutedEventArgs e)
+        {
+            mMusic.Pause();
+            btnPause.Visibility = Visibility.Collapsed;
+            btnPlay.Visibility = Visibility.Visible;
+        }
+
+        private void btnStop_Click(object sender, RoutedEventArgs e)
+        {
+            mMusic.Position = TimeSpan.Zero;
+            mMusic.Pause();
+        }
+
+        private void btnBokara_Click(object sender, RoutedEventArgs e)
+        {
+            mSound.Play();
         }
     }
 }

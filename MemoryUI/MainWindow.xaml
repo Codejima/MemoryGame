@@ -32,9 +32,41 @@
                 <ComboBoxItem Content="Sweets" />
             </ComboBox>
             </StackPanel>
-                
             <Image Height="150" Source="/ImagesAlpaca/kimochi.png"/>
-            
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*" />
+                    <RowDefinition Height="2*" />
+                </Grid.RowDefinitions>
+                <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Height="70" Margin="0,2,0,0">
+                    <Button x:Name="btnPlay" Click="btnPlay_Click" Background="#FF41257A" Visibility="Collapsed">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="#FF41257A"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="/Audio/mute.png"/>
+                    </Button>
+                    <Button x:Name="btnPause" Click="btnPause_Click" Background="#FF41257A" Visibility="Visible">
+                        <Button.Resources>
+                            <Style TargetType="Border">
+                                <Setter Property="BorderBrush" Value="#FF41257A"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="CornerRadius" Value="5"/>
+                            </Style>
+                        </Button.Resources>
+                        <Image Source="/Audio/sound.png"/>
+                    </Button>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Grid.Column="0" Width="50">
+                </StackPanel>
+            </Grid>
         </StackPanel>
         <Grid x:Name="FieldGrid" Background="#FF41257A" >
             <Grid.ColumnDefinitions>
@@ -152,7 +184,7 @@
             <StackPanel Width="150" Margin="50,0,0,0">
                 <Image x:Name="GameEndImage" Source="/ImagesAlpaca/resetpointer.png" Opacity="0.9" Width="150" Height="150" Visibility="Visible" />
             </StackPanel>
-            <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Margin="10,60,20,20" Background="#FF41257A" Foreground="White">
+            <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Margin="0,60,20,20" Background="#FF41257A" Foreground="White">
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>
