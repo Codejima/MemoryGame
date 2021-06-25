@@ -18,6 +18,7 @@ namespace MemoryUI
         private Button mSecondSelectedButton;
         private DateTime mTimeGameStart;
         private DispatcherTimer mTimer;
+        //private List<SolidColorBrush> brushList = new();
         private readonly MediaPlayer mMusic;
         private readonly SoundPlayer mSound;
 
@@ -44,7 +45,6 @@ namespace MemoryUI
             }
         }
 
-        private List<SolidColorBrush> brushList = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -58,6 +58,10 @@ namespace MemoryUI
             mTimer = new DispatcherTimer(new TimeSpan(0, 0, 0, 0, 100),
                         DispatcherPriority.Render, (_, _) => lblTime.Text = $"Time: {(DateTime.Now - mTimeGameStart).TotalSeconds:N1}", Dispatcher.CurrentDispatcher);
             ResetGame("Alpaca");
+
+            System.Reflection.PropertyInfo[] proplist = typeof(Brushes).GetProperties();
+            foreach (System.Reflection.PropertyInfo item in proplist)
+                brushList.Add((item.Name, item.GetValue(null) as SolidColorBrush));
             //cmbTheme.ItemsSource = Images;
 
 
@@ -230,10 +234,6 @@ namespace MemoryUI
 
         //TODO: implement below
         private int mCurrentColourPlayer1;
-        private void btnSwitcher1_Click(object sender, RoutedEventArgs e)
-        {
-            //(sender as Button).Foreground = Brushes.
-        }
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -258,6 +258,34 @@ namespace MemoryUI
         private void btnBokara_Click(object sender, RoutedEventArgs e)
         {
             mSound.Play();
+        }
+        private int mCurrentColorIndex;
+        private readonly List<(string, SolidColorBrush)> brushList = new();
+
+        //private void rainbowRectangleCreation()
+        //{
+        //    foreach ((string, SolidColorBrush) item in brushList)
+        //        _ = spAllColors.Children.Add(new Rectangle() { Fill = item.Item2 });
+        //}
+        private void btnPlayer1_Click(object sender, RoutedEventArgs e)
+        {
+            Button s = sender as Button;
+            s.Foreground = brushList[mCurrentColorIndex].Item2;
+            tblPoints1.Foreground = brushList[mCurrentColorIndex].Item2;
+            tblTurns1.Foreground = brushList[mCurrentColorIndex].Item2;
+            lblTime.Foreground = brushList[mCurrentColorIndex].Item2;
+            //s.Content = brushList[mCurrentColorIndex].Item1;
+            mCurrentColorIndex = mCurrentColorIndex == brushList.Count - 1 ? 0 : mCurrentColorIndex + 5;
+
+        }
+
+        private void btnPlayer2_Click(object sender, RoutedEventArgs e)
+        {
+            Button s = sender as Button;
+            s.Foreground = brushList[mCurrentColorIndex].Item2;
+            tblPoints2.Foreground = brushList[mCurrentColorIndex].Item2;
+            tblTurns2.Foreground = brushList[mCurrentColorIndex].Item2;
+            lblTime2.Foreground = brushList[mCurrentColorIndex].Item2; mCurrentColorIndex = mCurrentColorIndex == brushList.Count - 1 ? 0 : mCurrentColorIndex + 5;
         }
     }
 }
