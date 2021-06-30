@@ -1,0 +1,36 @@
+﻿<Page x:Class="MemoryUI.SliderCanvasLineDemo"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:MemoryUI"
+      mc:Ignorable="d" 
+      d:DesignHeight="700" d:DesignWidth="800"
+      Title="SliderCanvasLineDemo">
+    <Page.Resources>
+        <local:KKSlider x:Key="KKSlider"/>
+    </Page.Resources>
+    <StackPanel>
+        <StackPanel Orientation="Horizontal" Height="200" Width="800">
+            <Slider x:Name="sliderOne" Orientation="Vertical" Margin="0,0,0,0" Height="200" />
+            <Slider x:Name="sliderTwo" Orientation="Vertical" Margin="175,0,0,0" Height="200"/>
+            <Slider x:Name="sliderThree" Orientation="Vertical" Margin="180,0,0,0" Height="200"/>
+            <Slider x:Name="sliderFour" Orientation="Vertical" Margin="180,0,0,0" Height="200" />
+            <Slider x:Name="sliderFive" Orientation="Vertical" Margin="175,0,0,0" Height="200" />
+        </StackPanel>
+        <Canvas Grid.Row="5" Grid.ColumnSpan="4" Height="400" Background="White">
+            <Line x:Name="lineOne" X1="000" X2="200"
+                  Y1="{Binding ElementName=sliderOne, Path=Value, Converter={StaticResource KKSlider}}"
+                  Y2="{Binding ElementName=sliderTwo, Path=Value, Converter={StaticResource KKSlider}}" Stroke="Red" StrokeThickness="5"/>
+            <Line x:Name="lineTwo" X1="200" X2="400"
+                  Y1="{Binding ElementName=sliderTwo, Path=Value, Converter={StaticResource KKSlider}}"
+                  Y2="{Binding ElementName=sliderThree, Path=Value, Converter={StaticResource KKSlider}}" Stroke="Orange" StrokeThickness="5"/>
+            <Line x:Name="lineThree" X1="400" X2="600"
+                  Y1="{Binding ElementName=sliderThree, Path=Value, Converter={StaticResource KKSlider}}"
+                  Y2="{Binding ElementName=sliderFour, Path=Value, Converter={StaticResource KKSlider}}" Stroke="Yellow" StrokeThickness="5"/>
+            <Line x:Name="lineFour" X1="600" X2="800"
+                  Y1="{Binding ElementName=sliderFour, Path=Value, Converter={StaticResource KKSlider}}"
+                  Y2="{Binding ElementName=sliderFive, Path=Value, Converter={StaticResource KKSlider}}" Stroke="Green" StrokeThickness="5"/>
+        </Canvas>
+    </StackPanel>
+</Page>

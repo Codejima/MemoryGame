@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryUI"
         mc:Ignorable="d"
-        Title="kimochi" Height="1000" Width="800" >
+        Title="kimochi" Height="1020" Width="800" >
     <Window.Resources>
         <Style TargetType="Button" x:Key="FieldButtonStyle">
             <Setter Property="Width" Value="150"/>
@@ -23,13 +23,18 @@
         </Style>
         <Style TargetType="Border" x:Key="RoundedCornerStyle"/>
     </Window.Resources>
+    <Window.CommandBindings>
+        <!--<CommandBinding Command="local:ChangeThemeCommand.ChangeTheme" Executed="ChangeThemeCommand"/>-->
+    </Window.CommandBindings>
+
     <StackPanel Height="Auto" Background="#FF41257A">
+
         <StackPanel Orientation="Horizontal">
             <StackPanel Width="180">
-            <Label Content="Choose a Theme" Foreground="White"/>
-            <ComboBox x:Name="cmbTheme" Width="100" Height="23" HorizontalAlignment="Left" >
-                <ComboBoxItem Content="Alpaca" IsSelected="True"/>
-                <ComboBoxItem Content="Sweets" />
+            <Label Content="Choose a Card Theme" Foreground="White"/>
+                <ComboBox x:Name="cmbTheme" Width="100" Height="23" HorizontalAlignment="Left" >
+                    <ComboBoxItem Content="Alpaca" IsSelected="True" />
+                    <ComboBoxItem Content="Sweets" />
             </ComboBox>
             </StackPanel>
             <Image Height="150" Source="/ImagesAlpaca/kimochi.png"/>
@@ -43,32 +48,31 @@
                     <RowDefinition Height="2*" />
                 </Grid.RowDefinitions>
                 <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.Row="0" Height="70" Margin="0,2,0,0">
-                    <Button x:Name="btnPlay" Click="btnPlay_Click" Background="#FF41257A" Visibility="Collapsed">
+                    <Button x:Name="btnPlay" Click="btnPlay_Click" Background="#FF41257A" Visibility="Collapsed" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
                         <Button.Resources>
                             <Style TargetType="Border">
-                                <Setter Property="BorderBrush" Value="#FF41257A"/>
                                 <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="CornerRadius" Value="5"/>
                             </Style>
                         </Button.Resources>
                         <Image Source="/Audio/mute.png"/>
                     </Button>
-                    <Button x:Name="btnPause" Click="btnPause_Click" Background="#FF41257A" Visibility="Visible">
+                    <Button x:Name="btnPause" Click="btnPause_Click" Background="#FF41257A" Visibility="Visible" Style="{StaticResource {x:Static ToolBar.ButtonStyleKey}}">
                         <Button.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="BorderBrush" Value="#FF41257A"/>
+                            <Style TargetType="Border" >
                                 <Setter Property="BorderThickness" Value="0"/>
-                                <Setter Property="CornerRadius" Value="5"/>
                             </Style>
                         </Button.Resources>
                         <Image Source="/Audio/sound.png"/>
                     </Button>
+                    
+                    <Slider x:Name="VolumeSlider" Orientation="Vertical" Maximum="1" Value="0.25" ValueChanged="VolumeSlider_ValueChanged"/>
+                
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="0" Width="50">
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <Grid x:Name="FieldGrid" Background="#FF41257A" >
+        <Grid x:Name="FieldGrid" Background="#FF41257A" Width="800" Height="650">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="4*"/>
                 <ColumnDefinition Width="4*"/>
@@ -161,6 +165,7 @@
         </Grid>
         <!-- TODO: switch from stackpanel to grid -->
         <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Background="#FF41257A" Height="Auto">
+
             <StackPanel Width="150" Orientation="Vertical" Margin="25,0,0,0">
                 <StackPanel.Resources>
                     <Style TargetType="Border">
@@ -204,6 +209,17 @@
                     <Image Source="/ImagesAlpaca/reset.png" />
             </Button>
         </StackPanel>
+        <DockPanel>
+            <Menu DockPanel.Dock="Bottom" HorizontalAlignment="Right" Background="#FF41257A">
+                <MenuItem Header="About">
+                    <!--<MenuItem Header="Dark Theme" IsCheckable="True" IsChecked="True" Command="local:ChangeThemeCommand.ChangeTheme"/>-->
+                    <!--<MenuItem Header="Upload Card Theme" Command="ApplicationCommands.Upload"/>-->
+                    <MenuItem Header="Send feedback"/>
+                    <Separator/>
+                    <MenuItem Header="Info"/>
+                </MenuItem>
+            </Menu>
+        </DockPanel>
     </StackPanel>
 
 </Window>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Media;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -16,12 +17,11 @@ namespace MemoryUI
     {
         private Button mFirstSelectedButton;
         private Button mSecondSelectedButton;
+        private bool mCurrentPlayer;
         private DateTime mTimeGameStart;
         private DispatcherTimer mTimer;
-        //private List<SolidColorBrush> brushList = new();
         private readonly MediaPlayer mMusic;
         private readonly SoundPlayer mSound;
-
 
         private int mPoints;
         public int Points
@@ -47,10 +47,11 @@ namespace MemoryUI
 
         public MainWindow()
         {
-            InitializeComponent();
             mMusic = new();
             mMusic.Open(new Uri("Audio/Adiantum.mp3", UriKind.Relative));
-            mMusic.Volume = 0.05;
+            mMusic.Volume = 0.1;
+            InitializeComponent();
+            CenterWindowOnScreen();
             mMusic.Play();
             mMusic.MediaEnded += loop;
             mSound = new("Audio/bokara.wav");
@@ -62,16 +63,8 @@ namespace MemoryUI
             System.Reflection.PropertyInfo[] proplist = typeof(Brushes).GetProperties();
             foreach (System.Reflection.PropertyInfo item in proplist)
                 brushList.Add((item.Name, item.GetValue(null) as SolidColorBrush));
-            //cmbTheme.ItemsSource = Images;
-
-
-            //var brushPropertiesInfo = Type.GetType(nameof(Brushes)).GetProperties();
-            //foreach (var item in brushPropertiesInfo)
-            //{
-            //    brushList.Add(item.GetMethod.Invoke(null, null) as SolidColorBrush);
-            //}       
-            //brushPropertiesInfo[0].GetValue
         }
+
 
         private void loop(object sender, EventArgs e)
         {
@@ -116,7 +109,7 @@ namespace MemoryUI
                     CardTurnaround(mFirstSelectedButton);
                     return;
                 }
-                Turns++; 
+                Turns++;
                 mSecondSelectedButton = sender as Button;
                 CardTurnaround(mSecondSelectedButton);
 
@@ -124,11 +117,12 @@ namespace MemoryUI
                 if (((mFirstSelectedButton.Content as StackPanel).Children[0] as Image).Name != ((mSecondSelectedButton.Content as StackPanel).Children[0] as Image).Name)
                 {
                     Points = Math.Max(0, Points - 2);
+                    mCurrentPlayer = !mCurrentPlayer;
                     return;
                 }
                 // hide & reset
                 mFirstSelectedButton.IsEnabled = false;
-                mSecondSelectedButton.IsEnabled = false; 
+                mSecondSelectedButton.IsEnabled = false;
                 mFirstSelectedButton = null;
                 mSecondSelectedButton = null;
                 Points = Points + 5;
@@ -157,6 +151,8 @@ namespace MemoryUI
                 cardFront.Visibility = Visibility.Collapsed;
             }
         }
+
+
         int numberOfCards;
         private void ResetGame(string sender)
         {
@@ -226,14 +222,21 @@ namespace MemoryUI
             GameEndImage.Visibility = Visibility.Collapsed;
         }
 
+        private void CenterWindowOnScreen()
+        {
+            double screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+            double screenHeight = System.Windows.SystemParameters.PrimaryScreenHeight;
+            double windowWidth = this.Width;
+            double windowHeight = this.Height;
+            this.Left = (screenWidth / 2) - (windowWidth / 2);
+            this.Top = (screenHeight / 2) - (windowHeight / 2);
+        }
+
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
             //ResetGame(cmbTheme.SelectedItem.ToString());
             ResetGame((cmbTheme.SelectedItem as ComboBoxItem).Content.ToString());
         }
-
-        //TODO: implement below
-        private int mCurrentColourPlayer1;
 
         private void btnPlay_Click(object sender, RoutedEventArgs e)
         {
@@ -255,18 +258,8 @@ namespace MemoryUI
             mMusic.Pause();
         }
 
-        private void btnBokara_Click(object sender, RoutedEventArgs e)
-        {
-            mSound.Play();
-        }
         private int mCurrentColorIndex;
         private readonly List<(string, SolidColorBrush)> brushList = new();
-
-        //private void rainbowRectangleCreation()
-        //{
-        //    foreach ((string, SolidColorBrush) item in brushList)
-        //        _ = spAllColors.Children.Add(new Rectangle() { Fill = item.Item2 });
-        //}
         private void btnPlayer1_Click(object sender, RoutedEventArgs e)
         {
             Button s = sender as Button;
@@ -274,9 +267,7 @@ namespace MemoryUI
             tblPoints1.Foreground = brushList[mCurrentColorIndex].Item2;
             tblTurns1.Foreground = brushList[mCurrentColorIndex].Item2;
             lblTime.Foreground = brushList[mCurrentColorIndex].Item2;
-            //s.Content = brushList[mCurrentColorIndex].Item1;
-            mCurrentColorIndex = mCurrentColorIndex == brushList.Count - 1 ? 0 : mCurrentColorIndex + 5;
-
+            mCurrentColorIndex = mCurrentColorIndex == brushList.Count - 1 ? 0 : mCurrentColorIndex + 3;
         }
 
         private void btnPlayer2_Click(object sender, RoutedEventArgs e)
@@ -285,7 +276,31 @@ namespace MemoryUI
             s.Foreground = brushList[mCurrentColorIndex].Item2;
             tblPoints2.Foreground = brushList[mCurrentColorIndex].Item2;
             tblTurns2.Foreground = brushList[mCurrentColorIndex].Item2;
-            lblTime2.Foreground = brushList[mCurrentColorIndex].Item2; mCurrentColorIndex = mCurrentColorIndex == brushList.Count - 1 ? 0 : mCurrentColorIndex + 5;
+            lblTime2.Foreground = brushList[mCurrentColorIndex].Item2; mCurrentColorIndex = mCurrentColorIndex == brushList.Count - 1 ? 0 : mCurrentColorIndex + 3;
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            //SliderStuff.Navigate(new SliderCanvasLineDemo());
+        }
+        static class ChangeThemeCommand
+        {
+            public static readonly RoutedUICommand ChangeTheme = new RoutedUICommand("Upload Command", "Upload", typeof(ChangeThemeCommand), new InputGestureCollection() { new KeyGesture(Key.C, ModifierKeys.Control) });
+        }
+
+        private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            mMusic.Volume = VolumeSlider.Value;
+            if (mMusic.Volume == 0)
+            {
+                btnPause.Visibility = Visibility.Collapsed;
+                btnPlay.Visibility = Visibility.Visible;
+            }
+            if (mMusic.Volume > 0)
+            {
+                btnPlay.Visibility = Visibility.Collapsed;
+                btnPause.Visibility = Visibility.Visible;
+            }
         }
     }
 }
