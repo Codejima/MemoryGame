@@ -5,12 +5,15 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MemoryUI"
         mc:Ignorable="d"
+        x:Name="kimochiGame" DataContext="{Binding ElementName=kimochiGame}"
         Title="kimochi" Height="1020" Width="800" >
     <Window.Resources>
         <Style TargetType="Button" x:Key="FieldButtonStyle">
             <Setter Property="Width" Value="150"/>
             <Setter Property="Height" Value="150"/>
-            <Setter Property="Margin" Value="5"/>
+            
+            <Setter Property="HorizontalAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
             <Setter Property="Background" Value="#FF41257A"/>
             <Setter Property="BorderBrush" Value="White"/>
             <EventSetter Event="Click" Handler="CardFlip_Click" />
@@ -19,12 +22,12 @@
                     <Setter Property="CornerRadius" Value="5"/>
                 </Style>
             </Style.Resources>
-            <!-- Handler="CardFlip_Click" Handler="btnField_Click" -->
         </Style>
         <Style TargetType="Border" x:Key="RoundedCornerStyle"/>
     </Window.Resources>
     <Window.CommandBindings>
-        <!--<CommandBinding Command="local:ChangeThemeCommand.ChangeTheme" Executed="ChangeThemeCommand"/>-->
+        <CommandBinding Command="local:CommandClass.ChangeTheme" Executed="ChangeThemeCommand"/>
+        <CommandBinding Command="ApplicationCommands.New" Executed="btnReset_Click"/>
     </Window.CommandBindings>
 
     <StackPanel Height="Auto" Background="#FF41257A">
@@ -65,25 +68,25 @@
                         <Image Source="/Audio/sound.png"/>
                     </Button>
                     
-                    <Slider x:Name="VolumeSlider" Orientation="Vertical" Maximum="1" Value="0.25" ValueChanged="VolumeSlider_ValueChanged"/>
+                    <Slider x:Name="VolumeSlider" Orientation="Vertical" Maximum="0.25" Value="0.05" ValueChanged="VolumeSlider_ValueChanged"/>
                 
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" Grid.Column="0" Width="50">
                 </StackPanel>
             </Grid>
         </StackPanel>
-        <Grid x:Name="FieldGrid" Background="#FF41257A" Width="800" Height="650">
+        <Grid x:Name="FieldGrid" Background="{Binding GridBackground }"  Height="650">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="4*"/>
-                <ColumnDefinition Width="4*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="2*" />
-                <RowDefinition Height="2*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <Button Style="{StaticResource FieldButtonStyle}" Grid.Column="0" Grid.Row="0" >
                 <StackPanel/>
@@ -164,7 +167,7 @@
             </StackPanel>
         </Grid>
         <!-- TODO: switch from stackpanel to grid -->
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,0" Background="#FF41257A" Height="Auto">
+        <StackPanel Orientation="Horizontal" Background="#FF41257A" Height="Auto">
 
             <StackPanel Width="150" Orientation="Vertical" Margin="25,0,0,0">
                 <StackPanel.Resources>
@@ -200,7 +203,8 @@
             <StackPanel Width="150" Margin="50,0,0,0">
                 <Image x:Name="GameEndImage" Source="/ImagesAlpaca/resetpointer.png" Opacity="0.9" Width="150" Height="150" Visibility="Visible" />
             </StackPanel>
-            <Button x:Name="btnReset" Click="btnReset_Click" Width="200" Margin="0,60,20,20" Background="#FF41257A" Foreground="White">
+            <Button x:Name="btnReset" Width="200" Margin="0,60,20,20" Background="#FF41257A" Foreground="White" Command="ApplicationCommands.New">
+                <!--Click="btnReset_Click"-->
                 <Button.Resources>
                     <Style TargetType="Border">
                         <Setter Property="CornerRadius" Value="5"/>
@@ -212,8 +216,8 @@
         <DockPanel>
             <Menu DockPanel.Dock="Bottom" HorizontalAlignment="Right" Background="#FF41257A">
                 <MenuItem Header="About">
-                    <!--<MenuItem Header="Dark Theme" IsCheckable="True" IsChecked="True" Command="local:ChangeThemeCommand.ChangeTheme"/>-->
-                    <!--<MenuItem Header="Upload Card Theme" Command="ApplicationCommands.Upload"/>-->
+                    <MenuItem Header="Dark Theme" IsCheckable="True" IsChecked="{Binding DarkTheme, Mode=OneWay}" Command="local:CommandClass.ChangeTheme" />
+                    <!--<MenuItem Header="Use Own Card Theme" Command="ApplicationCommands.Upload"/>-->
                     <MenuItem Header="Send feedback"/>
                     <Separator/>
                     <MenuItem Header="Info"/>

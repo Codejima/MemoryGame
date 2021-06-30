@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Media;
 using System.Windows;
 using System.Windows.Controls;
@@ -13,7 +14,8 @@ namespace MemoryUI
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : Window, INotifyPropertyChanged
+
     {
         private Button mFirstSelectedButton;
         private Button mSecondSelectedButton;
@@ -22,6 +24,33 @@ namespace MemoryUI
         private DispatcherTimer mTimer;
         private readonly MediaPlayer mMusic;
         private readonly SoundPlayer mSound;
+
+
+        private bool mDarkTheme = true;
+
+        public bool DarkTheme
+        {
+            get
+            {
+                return mDarkTheme;
+            }
+            set
+            {
+                mDarkTheme = value;
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(DarkTheme)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(GridBackground)));
+
+            }
+        }
+
+        public SolidColorBrush GridBackground
+        {
+            get
+            {
+                return mDarkTheme ? new SolidColorBrush(Color.FromArgb(0xFF, 0x41, 0x25, 0x7A)) : Brushes.White; 
+            }
+        }
+
 
         private int mPoints;
         public int Points
@@ -232,7 +261,7 @@ namespace MemoryUI
             this.Top = (screenHeight / 2) - (windowHeight / 2);
         }
 
-        private void btnReset_Click(object sender, RoutedEventArgs e)
+        private void btnReset_Click(object sender, ExecutedRoutedEventArgs e)
         {
             //ResetGame(cmbTheme.SelectedItem.ToString());
             ResetGame((cmbTheme.SelectedItem as ComboBoxItem).Content.ToString());
@@ -260,6 +289,9 @@ namespace MemoryUI
 
         private int mCurrentColorIndex;
         private readonly List<(string, SolidColorBrush)> brushList = new();
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
         private void btnPlayer1_Click(object sender, RoutedEventArgs e)
         {
             Button s = sender as Button;
@@ -283,10 +315,6 @@ namespace MemoryUI
         {
             //SliderStuff.Navigate(new SliderCanvasLineDemo());
         }
-        static class ChangeThemeCommand
-        {
-            public static readonly RoutedUICommand ChangeTheme = new RoutedUICommand("Upload Command", "Upload", typeof(ChangeThemeCommand), new InputGestureCollection() { new KeyGesture(Key.C, ModifierKeys.Control) });
-        }
 
         private void VolumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
@@ -301,6 +329,14 @@ namespace MemoryUI
                 btnPlay.Visibility = Visibility.Collapsed;
                 btnPause.Visibility = Visibility.Visible;
             }
+        }
+        //static class ChangeThemeCommand
+        //{
+        //    public static readonly RoutedUICommand ChangeTheme = new RoutedUICommand("Upload Command", "Upload", typeof(ChangeThemeCommand), new InputGestureCollection() { new KeyGesture(Key.C, ModifierKeys.Control) });
+        //}
+        public void ChangeThemeCommand(object sender, ExecutedRoutedEventArgs e)
+        {
+            DarkTheme = !DarkTheme;
         }
     }
 }
